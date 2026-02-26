@@ -1,0 +1,30 @@
+[package]
+name = "circle-compliance"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Rust client for the Circle Web3 Services Compliance Engine API"
+repository = "https://github.com/longcipher/circle-sdk-rs"
+homepage = "https://github.com/longcipher/circle-sdk-rs"
+documentation = "https://docs.rs/circle-compliance"
+readme = "README.md"
+keywords = ["circle", "compliance", "blockchain", "screening", "sdk"]
+categories = ["api-bindings", "web-programming::http-client"]
+rust-version = "1.85"
+
+[dependencies]
+hpx = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true, features = ["v4"] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt", "rt-multi-thread"] }
+
+[lints]
+workspace = true
+
+[package.metadata.cargo-machete]
+ignored = ["tracing"]

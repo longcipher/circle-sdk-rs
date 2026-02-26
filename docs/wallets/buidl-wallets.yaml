@@ -1,0 +1,1097 @@
+openapi: 3.0.3
+info:
+  description: Modular Wallets API documentation.
+  title: Modular Wallets
+  version: '1.0'
+servers:
+  - url: https://api.circle.com
+security:
+  - BearerAuth: []
+tags:
+  - name: Transfers
+  - name: UserOps
+  - name: Wallets
+paths:
+  /v1/w3s/buidl/transfers:
+    get:
+      tags:
+        - Transfers
+      summary: List transfers
+      description: Retrieve a list of transfers that fit the specified parameters.
+      operationId: listTransfers
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: walletAddresses
+          description: Filter by given walletAddresses.
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Addresses'
+        - name: blockchain
+          description: Filter by given blockchain.
+          in: query
+          schema:
+            $ref: '#/components/schemas/Blockchain'
+        - name: state
+          description: Filter by given state.
+          in: query
+          schema:
+            $ref: '#/components/schemas/TransferState'
+        - name: transferType
+          description: Filter by the transferType.
+          in: query
+          schema:
+            $ref: '#/components/schemas/TransferType'
+        - name: txHash
+          description: Filter by the txHash.
+          in: query
+          schema:
+            $ref: '#/components/schemas/TxHash'
+        - name: userOpHash
+          description: Filter by the userOpHash.
+          in: query
+          schema:
+            $ref: '#/components/schemas/UserOpHash'
+        - $ref: '#/components/parameters/From'
+        - $ref: '#/components/parameters/To'
+        - $ref: '#/components/parameters/PageBefore'
+        - $ref: '#/components/parameters/PageAfter'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Transfer list retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfers'
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/XRequestId'
+            Link:
+              $ref: '#/components/headers/PaginationLink'
+        '400':
+          $ref: '#/components/responses/DefaultError'
+        '401':
+          $ref: '#/components/responses/NotAuthorized'
+  /v1/w3s/buidl/transfers/{id}:
+    get:
+      tags:
+        - Transfers
+      summary: Retrieve a transfer
+      description: Retrieve an existing transfer.
+      operationId: getTransfer
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/XRequestId'
+      responses:
+        '200':
+          description: Transfer retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferId'
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/XRequestId'
+        '400':
+          $ref: '#/components/responses/DefaultError'
+        '401':
+          $ref: '#/components/responses/NotAuthorized'
+  /v1/w3s/buidl/userOps:
+    get:
+      tags:
+        - UserOps
+      summary: List user operations
+      description: >-
+        Retrieve a list of all user operations that fit the specified
+        parameters.
+      operationId: listUserOps
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: blockchain
+          description: Filter by the blockchain.
+          in: query
+          schema:
+            $ref: '#/components/schemas/Blockchain'
+        - name: refId
+          description: Filter by the optional user-defined reference identifier.
+          in: query
+          schema:
+            $ref: '#/components/schemas/ReferenceId'
+        - name: senders
+          description: Filter by the senders.
+          in: query
+          schema:
+            $ref: '#/components/schemas/Addresses'
+        - name: state
+          description: Filter by the state.
+          in: query
+          schema:
+            $ref: '#/components/schemas/UserOpState'
+        - name: txHash
+          description: Filter by the txHash.
+          in: query
+          schema:
+            $ref: '#/components/schemas/TxHash'
+        - name: userOpHash
+          description: Filter by the userOpHash.
+          in: query
+          schema:
+            $ref: '#/components/schemas/UserOpHash'
+        - $ref: '#/components/parameters/From'
+        - $ref: '#/components/parameters/To'
+        - $ref: '#/components/parameters/PageBefore'
+        - $ref: '#/components/parameters/PageAfter'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: User operation list retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOps'
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/XRequestId'
+            Link:
+              $ref: '#/components/headers/PaginationLink'
+        '400':
+          $ref: '#/components/responses/DefaultError'
+        '401':
+          $ref: '#/components/responses/NotAuthorized'
+  /v1/w3s/buidl/userOps/{id}:
+    get:
+      tags:
+        - UserOps
+      summary: Retrieve a user operation
+      description: Retrieve an existing user operation.
+      operationId: getUserOp
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/Id'
+        - $ref: '#/components/parameters/XRequestId'
+      responses:
+        '200':
+          description: User operation retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOpId'
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/XRequestId'
+        '400':
+          $ref: '#/components/responses/DefaultError'
+        '401':
+          $ref: '#/components/responses/NotAuthorized'
+  /v1/w3s/buidl/wallets/{id}/balances:
+    get:
+      tags:
+        - Wallets
+      summary: Get wallet balances
+      description: Retrieve the balances of a wallet by its ID.
+      operationId: listWalletBalancesByID
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/WalletId'
+        - $ref: '#/components/parameters/XRequestId'
+        - name: standard
+          description: Filter by token standard.
+          in: query
+          schema:
+            $ref: '#/components/schemas/FtStandard'
+        - name: name
+          description: Filter by token name.
+          in: query
+          schema:
+            type: string
+        - name: tokenAddress
+          description: Filter by token address.
+          in: query
+          schema:
+            $ref: '#/components/schemas/Address'
+        - $ref: '#/components/parameters/PageBefore'
+        - $ref: '#/components/parameters/PageAfter'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Balance list retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balances'
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/XRequestId'
+            Link:
+              $ref: '#/components/headers/PaginationLink'
+        '400':
+          $ref: '#/components/responses/DefaultError'
+        '401':
+          $ref: '#/components/responses/NotAuthorized'
+  /v1/w3s/buidl/wallets/{id}/nfts:
+    get:
+      tags:
+        - Wallets
+      summary: Get wallet NFTs
+      description: Retrieve the NFTs of a wallet by its ID.
+      operationId: listWalletNFTsByID
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/WalletId'
+        - $ref: '#/components/parameters/XRequestId'
+        - name: standard
+          description: Filter by token standard.
+          in: query
+          schema:
+            $ref: '#/components/schemas/NftStandard'
+        - name: name
+          description: Filter by token name.
+          in: query
+          schema:
+            type: string
+        - name: tokenAddress
+          description: Filter by token address.
+          in: query
+          schema:
+            $ref: '#/components/schemas/Address'
+        - $ref: '#/components/parameters/PageBefore'
+        - $ref: '#/components/parameters/PageAfter'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Balance list retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Nfts'
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/XRequestId'
+            Link:
+              $ref: '#/components/headers/PaginationLink'
+        '400':
+          $ref: '#/components/responses/DefaultError'
+        '401':
+          $ref: '#/components/responses/NotAuthorized'
+  /v1/w3s/buidl/wallets/{blockchain}/{address}/balances:
+    get:
+      tags:
+        - Wallets
+      summary: Get wallet balances by blockchain and address
+      description: Retrieve wallet balances by blockchain and address.
+      operationId: listWalletBalancesByBlockchainAddress
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+        - $ref: '#/components/parameters/Blockchain'
+        - $ref: '#/components/parameters/Address'
+        - name: standard
+          description: Filter by token standard.
+          in: query
+          schema:
+            $ref: '#/components/schemas/FtStandard'
+        - name: name
+          description: Filter by token name.
+          in: query
+          schema:
+            type: string
+        - name: tokenAddress
+          description: Filter by token address.
+          in: query
+          schema:
+            $ref: '#/components/schemas/Address'
+        - $ref: '#/components/parameters/PageBefore'
+        - $ref: '#/components/parameters/PageAfter'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Balance list retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balances'
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/XRequestId'
+            Link:
+              $ref: '#/components/headers/PaginationLink'
+        '400':
+          $ref: '#/components/responses/DefaultError'
+        '401':
+          $ref: '#/components/responses/NotAuthorized'
+  /v1/w3s/buidl/wallets/{blockchain}/{address}/nfts:
+    get:
+      tags:
+        - Wallets
+      summary: Get wallet NFTs by blockchain and address
+      description: Retrieve the NFTs of a wallet by applicable blockchain and address.
+      operationId: listWalletNFTsByBlockchainAddress
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XRequestId'
+        - name: blockchain
+          description: Filter by given blockchain.
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Blockchain'
+        - name: address
+          description: Filter by given address.
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Address'
+        - name: standard
+          description: Filter by token standard.
+          in: query
+          schema:
+            $ref: '#/components/schemas/NftStandard'
+        - name: name
+          description: Filter by token name.
+          in: query
+          schema:
+            type: string
+        - name: tokenAddress
+          description: Filter by token address.
+          in: query
+          schema:
+            $ref: '#/components/schemas/Address'
+        - $ref: '#/components/parameters/PageBefore'
+        - $ref: '#/components/parameters/PageAfter'
+        - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Balance list retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Nfts'
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/XRequestId'
+            Link:
+              $ref: '#/components/headers/PaginationLink'
+        '400':
+          $ref: '#/components/responses/DefaultError'
+        '401':
+          $ref: '#/components/responses/NotAuthorized'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: PREFIX:ID:SECRET
+      description: >-
+        Circle's API Keys are formatted in the following structure
+        "PREFIX:ID:SECRET". All three parts are required to make a successful
+        request.
+  schemas:
+    Addresses:
+      title: Addresses
+      description: >
+        A list of blockchain generated unique identifier, associated with wallet
+        (account), smart contract or other blockchain objects, separated by
+        comma.
+      type: string
+      example: >-
+        0x4b6c0b0078b63f881503e7fd3a9a1061065db242,0x187785007d4a7D6756e834768597dA8fA6fcfE8a
+    Blockchain:
+      title: Blockchain
+      type: string
+      description: Blockchain network of resource.
+      enum:
+        - ETH
+        - ETH-SEPOLIA
+        - MATIC
+        - MATIC-AMOY
+        - ARB
+        - ARB-SEPOLIA
+        - UNI
+        - UNI-SEPOLIA
+        - BASE
+        - BASE-SEPOLIA
+        - OP
+        - OP-SEPOLIA
+        - AVAX
+        - AVAX-FUJI
+        - ARC-TESTNET
+        - MONAD
+        - MONAD-TESTNET
+      example: MATIC-AMOY
+    TransferState:
+      title: State
+      type: string
+      description: Transfer state.
+      enum:
+        - CONFIRMED
+        - COMPLETE
+        - FAILED
+      example: COMPLETE
+    TransferType:
+      title: TransferType
+      type: string
+      enum:
+        - INBOUND_TRANSFER
+        - OUTBOUND_TRANSFER
+      example: INBOUND_TRANSFER
+    TxHash:
+      title: TxHash
+      type: string
+      description: Blockchain generated identifier of transaction.
+      example: '0x4a25cc5e661d8504b59c5f38ba93f010e8518966f00e2ceda7955c4b8621357d'
+    UserOpHash:
+      title: UserOpHash
+      type: string
+      description: Generated identifier of user operation.
+      example: '0x54d3cccda6ffa503bc1e554937fe67818b6ca1a5a05c7e66ebfa32bf27520152'
+    XRequestId:
+      type: string
+      format: uuid
+      description: >-
+        A unique identifier, which can be helpful for identifying a request when
+        communicating with Circle support.
+      example: 2adba88e-9d63-44bc-b975-9b6ae3440dde
+    Id:
+      type: string
+      format: uuid
+      description: System-generated unique identifier of the resource.
+      example: c4d1da72-111e-4d52-bdbf-2e74a2d803d5
+    Amount:
+      title: Amount
+      type: string
+      description: Amount of native token.
+      example: '1.0'
+    BlockDate:
+      title: BlockDate
+      type: string
+      format: date-time
+      description: Date and time of block, in ISO-8601 UTC format.
+      example: '2023-01-01T12:04:05Z'
+    BlockHash:
+      title: BlockHash
+      type: string
+      description: Blockchain generated identifier of block.
+      example: '0x2eb19fd02850ff963efefbaa71dbcd4acb41a9c261c4f8961979db1b56d48704'
+    BlockHeight:
+      title: BlockHeight
+      type: integer
+      description: Blockchain height of block.
+      example: 123456
+    TransferErrorReason:
+      title: ErrorReason
+      type: string
+      description: Error reason of failed transfer.
+      enum:
+        - FAILED_REORG
+      example: FAILED_REORG
+    Address:
+      title: Address
+      description: >
+        Blockchain generated unique identifier, associated with wallet
+        (account), smart contract or other blockchain objects.
+      type: string
+      example: '0x4b6c0b0078b63f881503e7fd3a9a1061065db242'
+    NftMetaData:
+      title: NFTMetaData
+      type: string
+      description: NFT metadata.
+      example: ipfs://QmZcH4YvBVVRJtdn4RdbaqgspFU8gH6P9vomDpBVpAL3u4/1
+    NftTokenId:
+      title: NFTTokenId
+      type: string
+      description: NFT token ID.
+      example: '2'
+    NftIdMetadata:
+      title: NFT
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/NftMetaData'
+        nftTokenId:
+          $ref: '#/components/schemas/NftTokenId'
+    CreateDate:
+      type: string
+      format: date-time
+      description: Date and time the resource was created, in ISO-8601 UTC format.
+      example: '2023-01-01T12:04:05Z'
+    UpdateDate:
+      type: string
+      format: date-time
+      description: Date and time the resource was last updated, in ISO-8601 UTC format.
+      example: '2023-01-01T12:04:05Z'
+    Transfer:
+      title: Transfer
+      type: object
+      required:
+        - id
+        - walletId
+        - amount
+        - blockDate
+        - blockHash
+        - blockHeight
+        - blockchain
+        - from
+        - to
+        - state
+        - tokenId
+        - transferType
+        - txHash
+        - walletAddress
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        amount:
+          $ref: '#/components/schemas/Amount'
+        blockDate:
+          $ref: '#/components/schemas/BlockDate'
+        blockHash:
+          $ref: '#/components/schemas/BlockHash'
+        blockHeight:
+          $ref: '#/components/schemas/BlockHeight'
+        blockchain:
+          $ref: '#/components/schemas/Blockchain'
+        errorReason:
+          $ref: '#/components/schemas/TransferErrorReason'
+        from:
+          description: Sender address of transfer.
+          $ref: '#/components/schemas/Address'
+        nft:
+          $ref: '#/components/schemas/NftIdMetadata'
+        state:
+          $ref: '#/components/schemas/TransferState'
+        to:
+          description: Recipient address of transfer.
+          $ref: '#/components/schemas/Address'
+        tokenAddress:
+          description: Contract address of transferred token.
+          $ref: '#/components/schemas/Address'
+        tokenId:
+          description: Unique identifier of token.
+          $ref: '#/components/schemas/Id'
+        transferType:
+          $ref: '#/components/schemas/TransferType'
+        txHash:
+          $ref: '#/components/schemas/TxHash'
+        userOpHash:
+          $ref: '#/components/schemas/UserOpHash'
+        walletAddress:
+          description: Address of wallet.
+          $ref: '#/components/schemas/Address'
+        walletId:
+          description: Unique identifier of wallet.
+          $ref: '#/components/schemas/Id'
+        createDate:
+          $ref: '#/components/schemas/CreateDate'
+        updateDate:
+          $ref: '#/components/schemas/UpdateDate'
+    Transfers:
+      title: TransfersResponse
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - transfers
+          properties:
+            transfers:
+              type: array
+              description: All transfers that match criteria.
+              items:
+                $ref: '#/components/schemas/Transfer'
+    Error:
+      title: Error
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          description: Code that corresponds to the error.
+        message:
+          type: string
+          description: Message that describes the error.
+    TransferId:
+      title: TransferResponse
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - transfer
+          properties:
+            transfer:
+              $ref: '#/components/schemas/Transfer'
+    ReferenceId:
+      type: string
+      description: >-
+        Optional user-defined reference identifier for the wallet. Not used by
+        Circle for wallet functionality. Used for internal tracking or
+        associating wallets with entities in your own systems (for example, a
+        customer or account ID).
+      example: customer_12345
+    UserOpState:
+      title: State
+      type: string
+      description: State of user operation.
+      enum:
+        - SENT
+        - CONFIRMED
+        - COMPLETE
+        - FAILED
+      example: COMPLETE
+    UserOpErrorReason:
+      title: ErrorReason
+      type: string
+      description: Error reason of failed user operation.
+      enum:
+        - FAILED_ON_CHAIN
+        - FAILED_REPLACED
+      example: FAILED_REPLACED
+    UserOperation:
+      title: UserOperation
+      type: object
+      required:
+        - callData
+        - nonce
+        - sender
+      properties:
+        callData:
+          type: string
+        callGasLimit:
+          type: string
+        factory:
+          type: string
+        factoryData:
+          type: string
+        initCode:
+          type: string
+        maxFeePerGas:
+          type: string
+        maxPriorityFeePerGas:
+          type: string
+        nonce:
+          type: string
+        paymaster:
+          type: string
+        paymasterAndData:
+          type: string
+        paymasterData:
+          type: string
+        paymasterPostOpGasLimit:
+          type: string
+        paymasterVerificationGasLimit:
+          type: string
+        preVerificationGas:
+          type: string
+        sender:
+          type: string
+        signature:
+          type: string
+        verificationGasLimit:
+          type: string
+    UserOp:
+      title: UserOp
+      type: object
+      required:
+        - id
+        - blockchain
+        - state
+        - userOpHash
+        - userOperation
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        refId:
+          $ref: '#/components/schemas/ReferenceId'
+        actualGasCost:
+          type: string
+          description: Actual gas cost of user operation.
+          example: '0.0015584763706281'
+        actualGasUsed:
+          type: string
+          description: Actual gas used of user operation.
+          example: '182385'
+        blockDate:
+          $ref: '#/components/schemas/BlockDate'
+        blockHash:
+          $ref: '#/components/schemas/BlockHash'
+        blockHeight:
+          $ref: '#/components/schemas/BlockHeight'
+        blockchain:
+          $ref: '#/components/schemas/Blockchain'
+        errorReason:
+          $ref: '#/components/schemas/UserOpErrorReason'
+        revertReason:
+          type: string
+          description: On-chain failed revert reason of user operation.
+        state:
+          $ref: '#/components/schemas/UserOpState'
+        to:
+          description: Address of user operation executed with.
+          $ref: '#/components/schemas/Address'
+        txHash:
+          $ref: '#/components/schemas/TxHash'
+        userOpHash:
+          $ref: '#/components/schemas/UserOpHash'
+        userOperation:
+          $ref: '#/components/schemas/UserOperation'
+        createDate:
+          $ref: '#/components/schemas/CreateDate'
+        updateDate:
+          $ref: '#/components/schemas/UpdateDate'
+    UserOps:
+      title: UserOpsResponse
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - userOperations
+          properties:
+            userOperations:
+              type: array
+              description: All user operations that match criteria.
+              items:
+                $ref: '#/components/schemas/UserOp'
+    UserOpId:
+      title: UserOpResponse
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - userOperation
+          properties:
+            userOperation:
+              $ref: '#/components/schemas/UserOp'
+    FtStandard:
+      title: Standard
+      type: string
+      description: Token standard.
+      enum:
+        - ''
+        - ERC20
+      example: ERC20
+    TokenStandard:
+      title: Standard
+      type: string
+      enum:
+        - ERC20
+        - ERC721
+        - ERC1155
+    Token:
+      title: Token
+      type: object
+      required:
+        - id
+        - blockchain
+        - isNative
+        - createDate
+        - updateDate
+      properties:
+        name:
+          type: string
+          description: Blockchain token name.
+        standard:
+          $ref: '#/components/schemas/TokenStandard'
+        blockchain:
+          $ref: '#/components/schemas/Blockchain'
+        decimals:
+          type: integer
+          description: Number of decimal places shown in token amount.
+        isNative:
+          type: boolean
+          description: Token is native for specified blockchain.
+        symbol:
+          type: string
+          description: Blockchain symbol of specified token.
+        tokenAddress:
+          $ref: '#/components/schemas/Address'
+    Balance:
+      title: Balance
+      type: object
+      required:
+        - token
+        - updateDate
+        - amount
+      properties:
+        amount:
+          type: string
+          description: List of token balances for each token on the wallet(s).
+          example: '6.62607015'
+        token:
+          $ref: '#/components/schemas/Token'
+        updateDate:
+          $ref: '#/components/schemas/UpdateDate'
+    Balances:
+      title: BalancesResponse
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - tokenBalances
+          properties:
+            tokenBalances:
+              type: array
+              description: All token balances that match criteria.
+              items:
+                $ref: '#/components/schemas/Balance'
+    NftStandard:
+      title: Standard
+      type: string
+      description: NFT token standard.
+      enum:
+        - ERC721
+        - ERC1155
+      example: ERC721
+    Nft:
+      title: Balance
+      type: object
+      required:
+        - token
+        - updateDate
+        - amount
+      properties:
+        nftTokenId:
+          $ref: '#/components/schemas/NftTokenId'
+        metadata:
+          $ref: '#/components/schemas/NftMetaData'
+        amount:
+          type: string
+          description: List of token balances for each token on the wallet(s).
+          example: '6.62607015'
+        token:
+          $ref: '#/components/schemas/Token'
+        updateDate:
+          $ref: '#/components/schemas/UpdateDate'
+    Nfts:
+      title: BalancesResponse
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          required:
+            - nfts
+          properties:
+            nfts:
+              type: array
+              description: All token balances that match criteria.
+              items:
+                $ref: '#/components/schemas/Nft'
+  parameters:
+    From:
+      name: from
+      description: >-
+        Queries items created since the specified date-time (inclusive) in ISO
+        8601 format.
+      in: query
+      schema:
+        type: string
+        format: date-time
+        example: '2023-01-01T12:04:05Z'
+    To:
+      name: to
+      description: >-
+        Queries items created before the specified date-time (inclusive) in ISO
+        8601 format.
+      in: query
+      schema:
+        type: string
+        format: date-time
+        example: '2023-01-01T12:04:05Z'
+    PageBefore:
+      name: pageBefore
+      description: >
+        A collection ID value used for pagination.
+
+
+        It marks the exclusive end of a page. When provided, the collection
+        resource will return the next n items before
+
+        the id, with n being specified by pageSize.
+
+
+        The items will be returned in the natural order of the collection.
+
+
+        The resource will return the first page if neither pageAfter nor
+        pageBefore are specified. 
+
+
+        SHOULD NOT be used in conjunction with pageAfter.
+      in: query
+      schema:
+        type: string
+        format: uuid
+    PageAfter:
+      name: pageAfter
+      description: >
+        A collection ID value used for pagination.
+
+
+        It marks the exclusive begin of a page. When provided, the collection
+        resource will return the next n items after
+
+        the id, with n being specified by pageSize.
+
+
+        The items will be returned in the natural order of the collection.
+
+
+        The resource will return the first page if neither pageAfter nor
+        pageBefore are specified.
+
+
+        SHOULD NOT be used in conjunction with pageBefore.
+      in: query
+      schema:
+        type: string
+        format: uuid
+    PageSize:
+      name: pageSize
+      description: >
+        Limits the number of items to be returned.
+
+
+        Some collections have a strict upper bound that will disregard this
+        value. In case the specified value is higher
+
+        than the allowed limit, the collection limit will be used.
+
+
+        If avoided, the collection will determine the page size itself.
+      in: query
+      schema:
+        type: integer
+        default: 10
+        maximum: 50
+        minimum: 1
+    Id:
+      name: id
+      description: The universally unique identifier of the resource.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: b3d9d2d5-4c12-4946-a09d-953e82fae2b0
+    XRequestId:
+      name: X-Request-Id
+      in: header
+      description: >
+        Developer-provided identifier for this request, used for tracing
+        requests in Wallets API logs and the Developer Console, and when
+        communicating with Circle Support.
+
+        **Must be a UUID to appear in logs.** Non-UUID values are accepted by
+        the API but are ignored by logging and tracing systems.
+      schema:
+        $ref: '#/components/schemas/XRequestId'
+    WalletId:
+      name: id
+      description: >-
+        The universally unique identifier (UUID) for the wallet. You can obtain
+        this identifier through the `transfers` endpoints or from notifications
+        received from the transfer webhook.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: b3d9d2d5-4c12-4946-a09d-953e82fae2b0
+    Blockchain:
+      name: blockchain
+      description: Filter by given blockchain.
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/Blockchain'
+    Address:
+      name: address
+      description: Filter by given address.
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/Address'
+  headers:
+    XRequestId:
+      description: >
+        Developer-provided header parameter or Circle-generated universally
+        unique identifier (UUID v4). Useful for identifying a specific request
+        when communicating with Circle Support.
+      schema:
+        $ref: '#/components/schemas/XRequestId'
+    PaginationLink:
+      description: >
+        Pagination cursor information. Format includes the following link
+        relations: - self: URL pointing to the current page. - first: URL
+        pointing to the first page. - next: URL pointing to the next page
+        (omitted on the last page). - prev: URL pointing to the previous page
+        (omitted on the first page).
+
+        It's important to form calls with Link header values instead of
+        constructing your own URLs.
+      schema:
+        type: string
+        example: >-
+          <https://api.circle.com/v1/w3s/wallets?pageAfter=32d1b923-c30d-58de-a42e-157bf7148b85&pageSize=2>;
+          rel="next"
+  responses:
+    DefaultError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Error response
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/XRequestId'
+    NotAuthorized:
+      content:
+        application/json:
+          schema:
+            type: object
+            title: NotAuthorizedResponse
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: integer
+                description: Code that corresponds to the error.
+              message:
+                type: string
+                description: Message that describes the error.
+            example:
+              code: 401
+              message: Malformed authorization.
+      description: >-
+        Request has not been applied because it lacks valid authentication
+        credentials.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/XRequestId'

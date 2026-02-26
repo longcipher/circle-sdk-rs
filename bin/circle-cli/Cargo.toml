@@ -1,0 +1,33 @@
+[package]
+name = "circle-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Command-line interface for the Circle Web3 Services SDK"
+repository = "https://github.com/longcipher/circle-sdk-rs"
+homepage = "https://github.com/longcipher/circle-sdk-rs"
+readme = "README.md"
+keywords = ["circle", "web3", "wallet", "cli", "blockchain"]
+categories = ["command-line-utilities"]
+rust-version = "1.85"
+
+[[bin]]
+name = "circle-cli"
+path = "src/main.rs"
+
+[dependencies]
+circle-buidl-wallets = { path = "../../crates/circle-buidl-wallets" }
+circle-compliance = { path = "../../crates/circle-compliance" }
+circle-developer-controlled-wallets = { path = "../../crates/circle-developer-controlled-wallets" }
+circle-user-controlled-wallets = { path = "../../crates/circle-user-controlled-wallets" }
+clap = { workspace = true, features = ["derive", "env"] }
+eyre = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+uuid = { workspace = true, features = ["v4"] }
+
+[lints]
+workspace = true
