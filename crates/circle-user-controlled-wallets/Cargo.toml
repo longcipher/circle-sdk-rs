@@ -11,7 +11,6 @@ documentation = "https://docs.rs/circle-user-controlled-wallets"
 readme = "README.md"
 keywords = ["circle", "web3", "wallet", "blockchain", "sdk"]
 categories = ["api-bindings", "web-programming::http-client"]
-rust-version = "1.85"
 
 [dependencies]
 hpx = { workspace = true }

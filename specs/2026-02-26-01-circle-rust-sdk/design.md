@@ -506,5 +506,4 @@ documentation = "https://docs.rs/circle-buidl-wallets"
 readme = "README.md"
 keywords = ["circle", "web3", "wallet", "blockchain", "api"]
 categories = ["api-bindings", "web-programming::http-client"]
-rust-version = "1.85"
 ```
