@@ -2,10 +2,11 @@
 name = "circle-developer-controlled-wallets"
 version.workspace = true
 edition.workspace = true
+authors.workspace = true
 license.workspace = true
 description = "Rust client for the Circle Web3 Services Developer-Controlled Wallets API"
-repository = "https://github.com/longcipher/circle-sdk-rs"
-homepage = "https://github.com/longcipher/circle-sdk-rs"
+repository.workspace = true
+homepage.workspace = true
 documentation = "https://docs.rs/circle-developer-controlled-wallets"
 readme = "README.md"
 keywords = ["circle", "web3", "wallet", "blockchain", "sdk"]

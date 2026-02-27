@@ -31,10 +31,11 @@ jobs:
 
       - name: Check Cargo.toml version
         run: |
-          # Get the workspace version from Cargo.toml
-          CARGO_VERSION=$(cargo metadata --no-deps --format-version 1 | jq -r '.workspace_members[0]' | sed 's/.*#//')
-          # Fallback: parse directly from Cargo.toml
-          CARGO_VERSION=$(grep -m1 '^version' Cargo.toml | sed 's/version = "\(.*\)"/\1/')
+          # Read workspace version from [workspace.package] section
+          CARGO_VERSION=$(grep -A5 '^\[workspace\.package\]' Cargo.toml \
+            | grep '^version' \
+            | head -1 \
+            | sed 's/version = "\(.*\)"/\1/')
           echo "Cargo version: $CARGO_VERSION"
           echo "Tag version: ${{ env.VERSION }}"
 

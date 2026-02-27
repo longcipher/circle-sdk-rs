@@ -2,10 +2,11 @@
 name = "circle-compliance"
 version.workspace = true
 edition.workspace = true
+authors.workspace = true
 license.workspace = true
 description = "Rust client for the Circle Web3 Services Compliance Engine API"
-repository = "https://github.com/longcipher/circle-sdk-rs"
-homepage = "https://github.com/longcipher/circle-sdk-rs"
+repository.workspace = true
+homepage.workspace = true
 documentation = "https://docs.rs/circle-compliance"
 readme = "README.md"
 keywords = ["circle", "compliance", "blockchain", "screening", "sdk"]

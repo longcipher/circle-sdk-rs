@@ -1,8 +1,21 @@
 # circle-cli
 
+[![crates.io](https://img.shields.io/crates/v/circle-cli.svg)](https://crates.io/crates/circle-cli)
+[![docs.rs](https://docs.rs/circle-cli/badge.svg)](https://docs.rs/circle-cli)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/longcipher/circle-sdk-rs/blob/master/LICENSE)
+[![Rust](https://img.shields.io/badge/rust-1.85%2B-orange.svg)](https://www.rust-lang.org)
+
 `circle-cli` is a command-line interface for the Circle Web3 Services SDK. It provides subcommands for interacting with the Buidl Wallets, Compliance Engine, Developer-Controlled Wallets, and User-Controlled Wallets APIs.
 
-## Build
+## Install
+
+Install the latest release from [crates.io](https://crates.io/crates/circle-cli):
+
+```bash
+cargo install circle-cli
+```
+
+## Build from Source
 
 ```bash
 cargo build -p circle-cli

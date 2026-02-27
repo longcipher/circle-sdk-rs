@@ -1,8 +1,10 @@
 [workspace.package]
 version = "0.1.0"
 edition = "2024"
+authors = ["Longcipher Contributors"]
 license = "Apache-2.0"
-repository = "TODO"
+repository = "https://github.com/longcipher/circle-sdk-rs"
+homepage = "https://github.com/longcipher/circle-sdk-rs"
 
 [workspace]
 members = ["bin/*", "crates/*"]

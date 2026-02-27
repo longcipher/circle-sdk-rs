@@ -54,22 +54,26 @@ clean:
 
 # Install all required development tools
 setup:
-  cargo install cargo-leptos
   cargo install cargo-machete
   cargo install taplo-cli
   cargo install typos-cli
-  cargo install leptosfmt
+  cargo install git-cliff
+
+# Generate changelog using git-cliff
+changelog:
+  git cliff --output CHANGELOG.md
 
 # Generate documentation for the workspace
 docs:
   cargo doc --no-deps --open
 
-# Publish all library crates to crates.io in dependency order
+# Publish all library crates and the CLI to crates.io in dependency order
 publish:
   cargo publish -p circle-buidl-wallets
   cargo publish -p circle-compliance
   cargo publish -p circle-developer-controlled-wallets
   cargo publish -p circle-user-controlled-wallets
+  cargo publish -p circle-cli
 
 # ============================================================
 # Circle SDK — Prism Mock Server Recipes

@@ -2,10 +2,12 @@
 name = "circle-cli"
 version.workspace = true
 edition.workspace = true
+authors.workspace = true
 license.workspace = true
 description = "Command-line interface for the Circle Web3 Services SDK"
-repository = "https://github.com/longcipher/circle-sdk-rs"
-homepage = "https://github.com/longcipher/circle-sdk-rs"
+repository.workspace = true
+homepage.workspace = true
+documentation = "https://docs.rs/circle-cli"
 readme = "README.md"
 keywords = ["circle", "web3", "wallet", "cli", "blockchain"]
 categories = ["command-line-utilities"]
@@ -16,10 +18,10 @@ name = "circle-cli"
 path = "src/main.rs"
 
 [dependencies]
-circle-buidl-wallets = { path = "../../crates/circle-buidl-wallets" }
-circle-compliance = { path = "../../crates/circle-compliance" }
-circle-developer-controlled-wallets = { path = "../../crates/circle-developer-controlled-wallets" }
-circle-user-controlled-wallets = { path = "../../crates/circle-user-controlled-wallets" }
+circle-buidl-wallets = { path = "../../crates/circle-buidl-wallets", version = "0.1.0" }
+circle-compliance = { path = "../../crates/circle-compliance", version = "0.1.0" }
+circle-developer-controlled-wallets = { path = "../../crates/circle-developer-controlled-wallets", version = "0.1.0" }
+circle-user-controlled-wallets = { path = "../../crates/circle-user-controlled-wallets", version = "0.1.0" }
 clap = { workspace = true, features = ["derive", "env"] }
 eyre = { workspace = true }
 rustls = { workspace = true }
