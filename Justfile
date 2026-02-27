@@ -64,6 +64,13 @@ setup:
 docs:
   cargo doc --no-deps --open
 
+# Publish all library crates to crates.io in dependency order
+publish:
+  cargo publish -p circle-buidl-wallets
+  cargo publish -p circle-compliance
+  cargo publish -p circle-developer-controlled-wallets
+  cargo publish -p circle-user-controlled-wallets
+
 # ============================================================
 # Circle SDK — Prism Mock Server Recipes
 # ============================================================
