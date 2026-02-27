@@ -1,8 +1,9 @@
 # Circle SDK for Rust
 
-[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-[![Rust](https://img.shields.io/badge/rust-1.85%2B-orange.svg)](https://www.rust-lang.org)
-[![CI](https://github.com/longcipher/circle-sdk-rs/actions/workflows/release.yml/badge.svg)](https://github.com/longcipher/circle-sdk-rs/actions)
+[![DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/longcipher/circle-sdk-rs)
+[![Context7](https://img.shields.io/badge/Website-context7.com-blue)](https://context7.com/longcipher/circle-sdk-rs)
+
+![hpx](https://socialify.git.ci/longcipher/circle-sdk-rs/image?font=Source+Code+Pro&language=1&name=1&owner=1&pattern=Circuit+Board&theme=Auto)
 
 Async Rust SDK for the [Circle Web3 Services API](https://developers.circle.com/api-reference/).
 
