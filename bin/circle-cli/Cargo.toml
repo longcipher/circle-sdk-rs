@@ -22,6 +22,7 @@ circle-developer-controlled-wallets = { path = "../../crates/circle-developer-co
 circle-user-controlled-wallets = { path = "../../crates/circle-user-controlled-wallets" }
 clap = { workspace = true, features = ["derive", "env"] }
 eyre = { workspace = true }
+rustls = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }

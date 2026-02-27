@@ -61,6 +61,8 @@ pub enum Command {
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    // Install the default rustls CryptoProvider (aws-lc-rs) before any TLS connections.
+    let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
     tracing_subscriber::fmt::init();
     let cli = Cli::parse();
     let api_key = cli.api_key.unwrap_or_default();
