@@ -35,7 +35,7 @@ export CIRCLE_API_KEY="<YOUR_API_KEY>"
 
 ## Quick Reference
 
-```
+```text
 circle-cli
 ├── buidl
 │   ├── list-transfers        List transfers (requires --wallet-id)
@@ -231,13 +231,42 @@ $BINARY buidl list-wallet-balances --wallet-id <WALLET_UUID>
 $BINARY buidl list-wallet-nfts --wallet-id <WALLET_UUID>
 ```
 
-#### List transfers (requires at least one wallet address)
+#### List transfers
 
-Requires one or more wallet addresses (comma-separated):
+`--wallet-id` is required by the Circle API. Pass one or more wallet addresses (comma-separated):
 
 ```bash
-$BINARY buidl list-transfers --wallet-id "<WALLET_ADDRESS>"
+$BINARY buidl list-transfers --wallet-id 0xab5801a7d398351b8be11c439e05c5b3259aec9b
+# {"data":{"transfers":[]}}
 ```
+
+Multiple addresses:
+
+```bash
+$BINARY buidl list-transfers --wallet-id "<ADDR1>,<ADDR2>"
+```
+
+---
+
+### Compliance
+
+#### Screen a blockchain address
+
+```bash
+$BINARY compliance screen-address \
+  --chain ETH-SEPOLIA \
+  --address 0xab5801a7d398351b8be11c439e05c5b3259aec9b
+# {
+#   "result": "APPROVED",
+#   "decision": { "screeningDate": "2026-02-27T05:58:36Z", ... },
+#   "id": "<uuid>",
+#   "address": "0xab5801a7d398351b8be11c439e05c5b3259aec9b",
+#   "chain": "ETH-SEPOLIA",
+#   "details": []
+# }
+```
+
+Other supported chains: `ETH`, `MATIC`, `MATIC-AMOY`, `SOL`, `SOL-DEVNET`, `BTC`, `ARB`, `ARB-SEPOLIA`, `AVAX`, `AVAX-FUJI`, etc.
 
 ---
 
@@ -246,9 +275,8 @@ $BINARY buidl list-transfers --wallet-id "<WALLET_ADDRESS>"
 | Command | Status | Notes |
 |---------|--------|-------|
 | `developer validate-address --blockchain ETH` | ❌ Error 156006 | Mainnet blocked; use `ETH-SEPOLIA` with TEST key |
-| `buidl list-transfers` (no wallet-id) | ❌ Error 2 | `--wallet-id` (wallet address) is required |
+| `buidl list-transfers` without `--wallet-id` | ❌ (arg required) | `--wallet-id` is a required CLI argument |
 | `buidl list-wallet-balances` / `list-wallet-nfts` with unknown UUID | ❌ Error 230003 | Wallet UUID must exist in the system |
-| `compliance screen-address` | ❌ Deserialization error | Response schema mismatch — model update needed |
 
 ---
 
@@ -256,4 +284,3 @@ $BINARY buidl list-transfers --wallet-id "<WALLET_ADDRESS>"
 
 - [Circle API Reference — Programmable Wallets](https://developers.circle.com/api-reference/wallets/programmable-wallets/request-testnet-tokens)
 - [Circle Developer Console](https://console.circle.com)
-

@@ -213,6 +213,16 @@ pub struct ScreeningVendorDetail {
     pub create_date: String,
 }
 
+/// Outer `{ "data": … }` envelope returned by the compliance API.
+///
+/// The Circle compliance endpoint wraps its payload in the same `data` field
+/// used by every other Circle API; this struct handles that deserialization.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct ScreenAddressEnvelope {
+    /// Inner screening result.
+    pub data: BlockchainAddressScreeningResponse,
+}
+
 /// Response from the `screenAddress` endpoint.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]

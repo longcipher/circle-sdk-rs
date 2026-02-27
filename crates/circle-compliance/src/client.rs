@@ -4,7 +4,9 @@ use crate::{
     error::Error,
     models::{
         common::ApiErrorBody,
-        screening::{BlockchainAddressScreeningResponse, ScreenAddressRequest},
+        screening::{
+            BlockchainAddressScreeningResponse, ScreenAddressEnvelope, ScreenAddressRequest,
+        },
     },
 };
 
@@ -70,6 +72,8 @@ impl ComplianceClient {
         &self,
         req: &ScreenAddressRequest,
     ) -> Result<BlockchainAddressScreeningResponse, Error> {
-        self.post("/v1/w3s/compliance/screening/addresses", req).await
+        let envelope: ScreenAddressEnvelope =
+            self.post("/v1/w3s/compliance/screening/addresses", req).await?;
+        Ok(envelope.data)
     }
 }

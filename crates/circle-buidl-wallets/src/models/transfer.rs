@@ -133,8 +133,13 @@ pub struct TransferId {
 #[derive(Debug, Default, Clone, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ListTransfersParams {
-    /// Filter by wallet addresses (comma-separated list; required by the API).
-    pub wallet_addresses: String,
+    /// Filter by wallet addresses (comma-separated list; required by the Circle API).
+    ///
+    /// The `walletAddresses` query parameter is marked `required: true` in the
+    /// OpenAPI spec. When `None` the field is omitted from the query string; the
+    /// server will return an error 2 (invalid parameter) in that case.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub wallet_addresses: Option<String>,
     /// Filter by blockchain.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub blockchain: Option<Blockchain>,

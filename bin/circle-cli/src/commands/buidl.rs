@@ -9,9 +9,10 @@ use crate::output::OutputFormat;
 pub enum BuidlCommand {
     /// List transfers for a wallet address.
     ListTransfers {
-        /// Filter by wallet address (comma-separated list).
-        #[arg(long)]
-        wallet_id: Option<String>,
+        /// Wallet address (or comma-separated list of addresses) to filter by.
+        /// This parameter is required by the Circle API.
+        #[arg(long, required = true)]
+        wallet_id: String,
         /// Start of date range (ISO-8601).
         #[arg(long)]
         from: Option<String>,
@@ -73,7 +74,7 @@ pub(crate) async fn run(
         BuidlCommand::ListTransfers { wallet_id, from, to, page_size } => {
             use circle_buidl_wallets::models::{common::PageParams, transfer::ListTransfersParams};
             let params = ListTransfersParams {
-                wallet_addresses: wallet_id.unwrap_or_default(),
+                wallet_addresses: Some(wallet_id),
                 page: PageParams { from, to, page_size, ..Default::default() },
                 ..Default::default()
             };
